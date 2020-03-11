@@ -6,8 +6,9 @@ GIT_COMMIT := $(shell git log --pretty=format:'%h' -n 1)
 METRIC_FILE := "metrics.txt"
 METRIC_REC_FILE := "metrics_received.txt"
 CONFIG := "./assets/config.toml"
+RELEASE_ZIP := "syphon.zip"
 
-.PHONY: all build run promiscuous test clean
+.PHONY: all run promiscuous test clean
 
 all: build
 
@@ -34,3 +35,6 @@ promiscuous: build ## give minary ability to listen promiscuously
 
 test: ## Run test on code
 	@go test ./...
+
+release: build ## Package release artifact
+	zip --junk-paths $(RELEASE_ZIP) $(SERVER_OUT) README.md
