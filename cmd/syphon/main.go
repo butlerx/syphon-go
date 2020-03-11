@@ -7,6 +7,7 @@ import (
 	"os"
 	"sort"
 
+	"github.com/butlerx/syphon/internal/app/syphon"
 	"github.com/butlerx/syphon/internal/pkg/config"
 	"github.com/lomik/zapwriter"
 	"github.com/urfave/cli/v2"
@@ -58,9 +59,8 @@ func main() {
 
 			mainLogger := zapwriter.Logger("main")
 			ctx := context.Background()
-			listenChan := startUploaders(ctx, cfg)
-			startServer(ctx, cfg, listenChan)
-			registerMetrics(ctx, cfg.Metric.Interval, listenChan)
+			listenChan := syphon.Uploader(ctx, cfg)
+			syphon.Server(ctx, cfg, listenChan)
 			mainLogger.Info("app started")
 
 			<-ctx.Done()

@@ -1,0 +1,7 @@
+---
+apiVersion: v2
+name: syphon
+description: Versatile metrics processor, proxy and forwarder
+type: application
+version: 0.1.0
+appVersion: 0.0.1

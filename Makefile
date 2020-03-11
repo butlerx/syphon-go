@@ -21,9 +21,8 @@ build: $(SERVER_OUT) ## Build binary
 release: $(RELEASE_ZIP) ## Package release artifact
 
 .image-id:
-	mkdir -p $(@D)
 	image_id="butlerx/syphon:$$(pwgen -1)"
-	docker build --tag="$${image_id}" --build-arg $(VERSION) -f build/Dockerfile .
+	docker build --tag="$${image_id}" --build-arg $(VERSION) -f build/package/Dockerfile .
 	echo "$${image_id}" > .image-id
 
 $(SERVER_OUT): dep
@@ -33,13 +32,14 @@ $(RELEASE_ZIP): build
 	zip --junk-paths $(RELEASE_ZIP) $(SERVER_OUT) README.md
 
 clean: ## Remove previous builds
-	@rm $(SERVER_OUT) $(RELEASE_ZIP) metrics.txt metrics_received.txt
+	@go clean
+	@rm -f $(SERVER_OUT) $(RELEASE_ZIP) metrics.txt metrics_received.txt
 
 dep: ## Get the dependencies
 	@go get -v -d ./...
 
 run: dep ## Run server
-	@go run $(SERVER_PKG_BUILD) --config ./assets/config.toml
+	@go run $(SERVER_PKG_BUILD) --config configs/config.toml
 
 help: ## Display this help screen
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

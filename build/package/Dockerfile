@@ -18,7 +18,7 @@ FROM scratch
 LABEL maintainer="Cian Butler<butlerx@notthe.cloud>"
 
 COPY --from=builder /src/syphon.bin /bin/syphon
-ADD assets/config.toml /bin/config.toml
+ADD config/config.toml /bin/config.toml
 
 EXPOSE 2003
 LABEL VERSION=$VERSION
