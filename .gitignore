@@ -1,6 +1,7 @@
 ### syphon ###
 syphon.zip
 metrics*.txt
+.image-id
 
 ### Go ###
 # Binaries for programs and plugins

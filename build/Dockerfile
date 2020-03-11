@@ -1,27 +1,26 @@
-# Use a mutli-stage build pipeline to generate the executable
-FROM golang:1.11
+FROM golang:1.14 as builder
 
 ARG VERSION="development"
-
 ENV GO_PATH="/go"
 
-ADD . /src
+COPY cmd internal /src/
 WORKDIR /src
 
-RUN go test -v ./...
-
 ENV GOOS=linux
-RUN go build -i -v -o syphon.bin -a -ldflags "-X main.version=$VERSION" ./cmd/syphon
+RUN go get -v -d ./... && \
+    go test -v ./... && \
+    go build -i -v -o syphon.bin \
+      -a -ldflags "-X main.version=$VERSION" \
+      ./cmd/syphon
 
 # Build the actual container
 FROM scratch
 LABEL maintainer="Cian Butler<butlerx@notthe.cloud>"
 
-COPY --from=0 /src/syphon.bin /bin/syphon
+COPY --from=builder /src/syphon.bin /bin/syphon
 ADD assets/config.toml /bin/config.toml
 
 EXPOSE 2003
-
 LABEL VERSION=$VERSION
 
 WORKDIR /bin
