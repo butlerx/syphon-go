@@ -1,6 +1,8 @@
-# Welcome to Syphon metric proxy 👋
+# Welcome to syphon 👋
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
+[![Version](https://img.shields.io/npm/v/syphon.svg)](https://www.npmjs.com/package/syphon)
+[![License: Apache License 2.0](https://img.shields.io/badge/License-Apache%20License%202.0-yellow.svg)](./LICENSE)
+[![Twitter: cianbutlerx](https://img.shields.io/twitter/follow/cianbutlerx.svg?style=social)](https://twitter.com/cianbutlerx)
 
 > Versatile metrics processor, proxy and forwarder
 
@@ -111,10 +113,31 @@ pattern = ".*"
 
 ## Run tests
 
-```bash
+```sh
 make test
 ```
 
 ## Author
 
 👤 **Cian Butler**
+
+- Website: cianbutler.ie
+- Twitter: [@cianbutlerx](https://twitter.com/cianbutlerx)
+- Github: [@butlerx](https://github.com/butlerx)
+- LinkedIn: [@butlerx](https://linkedin.com/in/butlerx)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!
+
+Feel free to check [issues page](https://github.com/butlerx/syphon/issues).
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+## 📝 License
+
+Copyright © 2020 [Cian Butler](https://github.com/butlerx).
+
+This project is [Apache License 2.0](./LICENSE) licensed.

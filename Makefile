@@ -7,7 +7,7 @@ METRIC_FILE := "metrics.txt"
 METRIC_REC_FILE := "metrics_received.txt"
 CONFIG := "./assets/config.toml"
 
-.PHONY: all build run promiscuous
+.PHONY: all build run promiscuous test clean
 
 all: build
 
