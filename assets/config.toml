@@ -1,0 +1,54 @@
+[metric]
+# Endpoint for store internal carbon metrics.
+# Valid values: "" or "local", "tcp://host:port", "udp://host:port"
+endpoint = "local"
+# Interval of storing internal metrics. Like CARBON_METRIC_INTERVAL
+interval = "1m0s"
+
+[logging]
+# "stderr", "stdout" can be used as file name
+file = "stderr"
+# Logging error level. Valid values: "debug", "info", "warn", "error"
+level = "debug"
+#level = "info"
+# Logging encoding format. Valid values: "mixes", "json", "console"
+encoding = "mixed"
+
+[[uploader.udp]]
+enabled = true
+host = "localhost"
+port = 2004
+
+[[uploader.tcp]]
+enabled = false
+host = "localhost"
+port = 2004
+
+[[uploader.file]]
+enabled = false
+path = "metrics_received.txt"
+
+# Designed for use with carbon-clickhouse
+# https://github.com/lomik/carbon-clickhouse/blob/master/grpc/carbon.proto
+[[uploader.grpc]]
+enabled = false
+host = "localhost"
+port = 2005
+
+[file]
+enabled = true
+path = "metrics.txt"
+
+[udp]
+enabled = true
+listen = ":2003"
+# Allows to see traffic on a port already in use
+# mode = "promiscuous"
+
+[tcp]
+enabled = true
+listen = ":2003"
+
+[prometheus]
+enabled = false
+listen = ":2006"
