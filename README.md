@@ -1,6 +1,6 @@
 # Welcome to syphon 👋
 
-[![Version](https://img.shields.io/npm/v/syphon.svg)](https://www.npmjs.com/package/syphon)
+![Version](https://img.shields.io/github/go-mod/go-version/butlerx/syphon-go?style=flat-square)
 [![License: Apache License 2.0](https://img.shields.io/badge/License-Apache%20License%202.0-yellow.svg)](./LICENSE)
 [![Twitter: cianbutlerx](https://img.shields.io/twitter/follow/cianbutlerx.svg?style=social)](https://twitter.com/cianbutlerx)
 
@@ -121,7 +121,7 @@ make test
 
 👤 **Cian Butler**
 
-- Website: cianbutler.ie
+- Website: [cianbutler.ie](https://cianbutler.ie)
 - Twitter: [@cianbutlerx](https://twitter.com/cianbutlerx)
 - Github: [@butlerx](https://github.com/butlerx)
 - LinkedIn: [@butlerx](https://linkedin.com/in/butlerx)
@@ -130,7 +130,7 @@ make test
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check [issues page](https://github.com/butlerx/syphon/issues).
+Feel free to check [issues page](https://github.com/butlerx/syphon-go/issues).
 
 ## Show your support
 
