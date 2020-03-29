@@ -3,9 +3,9 @@ package syphon
 import (
 	"context"
 
-	"github.com/butlerx/syphon/internal/pkg/config"
-	"github.com/butlerx/syphon/internal/pkg/parser"
-	"github.com/butlerx/syphon/internal/pkg/uploader"
+	"github.com/butlerx/syphon-go/internal/pkg/config"
+	"github.com/butlerx/syphon-go/internal/pkg/parser"
+	"github.com/butlerx/syphon-go/internal/pkg/uploader"
 )
 
 // Uploader init function

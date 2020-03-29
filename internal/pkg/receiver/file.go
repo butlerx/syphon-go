@@ -5,8 +5,8 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/butlerx/syphon/internal/pkg/handler"
-	"github.com/butlerx/syphon/internal/pkg/parser"
+	"github.com/butlerx/syphon-go/internal/pkg/handler"
+	"github.com/butlerx/syphon-go/internal/pkg/parser"
 	"github.com/lomik/zapwriter"
 	"go.uber.org/zap"
 )

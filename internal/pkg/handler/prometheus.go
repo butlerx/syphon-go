@@ -6,7 +6,7 @@ import (
 	"math"
 	"net/http"
 
-	"github.com/butlerx/syphon/internal/pkg/parser"
+	"github.com/butlerx/syphon-go/internal/pkg/parser"
 	"github.com/golang/snappy"
 	"github.com/lomik/carbon-clickhouse/helper/pb"
 	"github.com/prometheus/client_golang/prometheus"

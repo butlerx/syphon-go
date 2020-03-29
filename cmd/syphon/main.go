@@ -7,8 +7,8 @@ import (
 	"os"
 	"sort"
 
-	"github.com/butlerx/syphon/internal/app/syphon"
-	"github.com/butlerx/syphon/internal/pkg/config"
+	"github.com/butlerx/syphon-go/internal/app/syphon"
+	"github.com/butlerx/syphon-go/internal/pkg/config"
 	"github.com/lomik/zapwriter"
 	"github.com/urfave/cli/v2"
 )

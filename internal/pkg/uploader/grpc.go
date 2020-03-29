@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/butlerx/syphon/internal/pkg/connection"
-	"github.com/butlerx/syphon/internal/pkg/parser"
+	"github.com/butlerx/syphon-go/internal/pkg/connection"
+	"github.com/butlerx/syphon-go/internal/pkg/parser"
 	"github.com/lomik/zapwriter"
 	"go.uber.org/zap"
 )
