@@ -7,7 +7,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/butlerx-go/syphon/internal/pkg/parser"
+	"github.com/butlerx/syphon-go/internal/pkg/parser"
 	api "github.com/lomik/carbon-clickhouse/grpc"
 	"github.com/lomik/zapwriter"
 	"github.com/prometheus/client_golang/prometheus"
