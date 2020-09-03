@@ -1,5 +1,5 @@
 ---
-name: Go
+name: Build and Test
 on:
   push:
     branches:

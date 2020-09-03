@@ -3,6 +3,8 @@
 ![Version](https://img.shields.io/github/go-mod/go-version/butlerx/syphon-go?style=flat-square)
 [![License: Apache License 2.0](https://img.shields.io/badge/License-Apache%20License%202.0-yellow.svg)](./LICENSE)
 [![Twitter: cianbutlerx](https://img.shields.io/twitter/follow/cianbutlerx.svg?style=social)](https://twitter.com/cianbutlerx)
+[![Build and Test](https://github.com/butlerx/syphon-go/workflows/Build%20and%20Test/badge.svg)](https://github.com/butlerx/syphon-go/actions?query=workflow%3A%22UBuild+and+Test%22)
+[![Upload Release Asset](https://github.com/butlerx/syphon-go/workflows/Upload%20Release%20Asset/badge.svg)](https://github.com/butlerx/syphon-go/actions?query=workflow%3A%22Upload+Release+Asset%22)
 
 > Versatile metrics processor, proxy and forwarder
 
