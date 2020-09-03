@@ -2,9 +2,11 @@ SHELL := bash
 .ONESHELL:
 .SHELLFLAGS := -eu -o pipefail -c
 .DELETE_ON_ERROR:
+.DEFAULT_GOAL := help
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
+GO111MODULES=on
 GIT_TAG := $(shell git describe --always --abbrev=0 --tags)
 GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 GIT_COMMIT := $(shell git log --pretty=format:'%h' -n 1)
@@ -17,41 +19,50 @@ RELEASE_ZIP := "syphon.zip"
 .PHONY: all docker build release
 all: build docker release
 docker: .image-id ## Build Docker container
-build: $(SYPHON) ## Build binary
+build: $(SYPHON) ## Build Binary
 release: $(RELEASE_ZIP) ## Package release artifact
 
 .image-id:
 	image_id="butlerx/syphon:$$(pwgen -1)"
+	@echo "🍳 Building container $(image_id)"
 	docker build --tag="$${image_id}" --build-arg $(VERSION) -f build/package/Dockerfile .
 	echo "$${image_id}" > .image-id
 
 $(SYPHON): dep
+	@echo "🍳 Building $(SYPHON)"
 	@go build -i -v -o $(SYPHON) -ldflags "-X main.version=$(GIT_TAG)-$(GIT_BRANCH).$(GIT_COMMIT)" $(SYPHON_PKG_BUILD)
 
-$(RELEASE_ZIP): $(SYPHON) ## build
+$(RELEASE_ZIP): $(SYPHON) .image_id
+	@echo "🍳 Building $(RELEASE_ZIP)"
 	zip --junk-paths $(RELEASE_ZIP) $(SYPHON) README.md
+	docker push $(image_id)
 
 .PHONY:clean
 clean: ## Remove previous builds
+	@echo "🧹 Cleaning old build"
 	@go clean
 	@rm -f $(SYPHON) $(RELEASE_ZIP) metrics.txt metrics_received.txt
 
 .PHONY: dep
-dep: ## Get the dependencies
+dep: ## go get all dependencies
+	@echo "🛎 Updatig Dependencies"
 	@go get -v -d ./...
 
 .PHONY: run
-run: dep ## Run server
-	@go run $(SYPHON_PKG_BUILD) --config configs/config.toml
+run: dep ## Compiles and runs server
+	@go run -race $(SYPHON_PKG_BUILD) --config configs/config.toml
 
 .PHONY: help
 help:  ## Display this help screen
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+	| sort \
+	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: promiscuous
-promiscuous: $(SYPHON)  ## give minary ability to listen promiscuously
+promiscuous: $(SYPHON)  ## give binary ability to listen promiscuously
 	sudo setcap cap_net_raw=ep $(SYPHON)
 
 .PHONY: test
-test: ## Run test on code
-	@go test ./...
+test: ## Runs go test with default values
+	@echo "🍜 Testing $(SYPHON)"
+	@go test -v -count=1 -race ./...

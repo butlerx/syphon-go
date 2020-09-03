@@ -2,54 +2,55 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "syphon.fullname" . }}
-  labels:
-    {{- include "syphon.labels" . | nindent 4 }}
+  labels: {{- include "syphon.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
-    matchLabels:
-      {{- include "syphon.selectorLabels" . | nindent 6 }}
+    matchLabels: {{- include "syphon.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels:
-        {{- include "syphon.selectorLabels" . | nindent 8 }}
+      labels: {{- include "syphon.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "syphon.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      securityContext: {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          securityContext: {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ default .Values.image.tag .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: tcp
+              containerPort: 2003
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+            - name: udp
+              containerPort: 2003
+              protocol: UDP
+            - name: prometheus
+              containerPort: 2006
+              protocol: TCP
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.command }}
+          command: {{- toYaml . | trim | nindent 12 }}
+          {{- end }}
+          {{- with .Values.args }}
+          args: {{- toYaml . | trim | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: configs
+              mountPath: /etc/syphon/config.toml
+              subPath: config.toml
+              readOnly: true
+      volumes:
+        - name: configs
+          configMap: {{- include "chart.configMapName" $ | nindent 4 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector: {{- toYaml . | nindent 8 }}
+    {{- end }}
     {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
+      affinity: {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
+      tolerations: {{- toYaml . | nindent 8 }}
     {{- end }}

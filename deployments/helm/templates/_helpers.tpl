@@ -1,7 +1,4 @@
-{{/* vim: set filetype=mustache: */}}
-{{/*
-Expand the name of the chart.
-*/}}
+{{/* Expand the name of the chart. */}}
 {{- define "syphon.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
@@ -24,40 +21,33 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 {{- end -}}
 
-{{/*
-Create chart name and version as used by the chart label.
-*/}}
+{{/* Create chart name and version as used by the chart label. */}}
 {{- define "syphon.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{/*
-Common labels
-*/}}
+{{/* Common labels */}}
 {{- define "syphon.labels" -}}
 helm.sh/chart: {{ include "syphon.chart" . }}
 {{ include "syphon.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+app.kubernetes.io/version: {{ .image.tag | default .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
-{{/*
-Selector labels
-*/}}
+{{/* Selector labels */}}
 {{- define "syphon.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "syphon.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "syphon.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "syphon.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
+
+{{/* Define name for configmap that changes on content change */}}
+{{- define "syphon.configMapName" -}}
+name: {{ $.Release.Name }}-{{ include "syphon.config" $ | sha256sum | trunc 10 }}
 {{- end -}}
+
+{{/* Convert config to yaml */}}
+{{- define "syphon.config" -}}
+config.yaml: |-
+  {{- toToml .Values.config | trim | nindent 2 }}
 {{- end -}}
