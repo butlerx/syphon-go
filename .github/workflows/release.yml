@@ -33,3 +33,13 @@ jobs:
           asset_path: ./syphon.zip
           asset_name: syphon.zip
           asset_content_type: application/zip
+      - name: Upload Release Zip
+        uses: actions/upload-artifact@v2
+        with:
+          name: syphon.zip
+          path: ./syphon.zip
+      - name: Upload Release Binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: syphon
+          path: ./syphon.bin

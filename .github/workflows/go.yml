@@ -12,19 +12,20 @@ jobs:
     name: Build
     strategy:
       matrix:
-        go-version:
+        go:
           - 1.13.x
           - 1.14.x
+          - 1.15.x
         platform:
           - ubuntu-latest
           - macos-latest
           # - windows-latest
     runs-on: ${{ matrix.platform }}
     steps:
-      - name: Set up Go 1.13
+      - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v1
         with:
-          go-version: 1.13
+          go-version: ${{ matrix.go }}
         id: go
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
@@ -40,3 +41,8 @@ jobs:
         run: make test
       - name: Build
         run: make build
+      - name: Upload Binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: syphon-${{ matrix.go }}-${{ matrix.platform }}
+          path: ./syphon.bin
