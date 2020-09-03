@@ -11,6 +11,7 @@ GIT_TAG := $(shell git describe --always --abbrev=0 --tags)
 GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 GIT_COMMIT := $(shell git log --pretty=format:'%h' -n 1)
 VERSION="$(GIT_TAG)-$(GIT_BRANCH).$(GIT_COMMIT)"
+IMAGE_ID="butlerx/syphon:$(VERSION)"
 
 SYPHON := "syphon.bin"
 SYPHON_PKG_BUILD := "./cmd/syphon"
@@ -22,20 +23,18 @@ docker: .image-id ## Build Docker container
 build: $(SYPHON) ## Build Binary
 release: $(RELEASE_ZIP) ## Package release artifact
 
-.image-id:
-	image_id="butlerx/syphon:$$(pwgen -1)"
-	@echo "🍳 Building container $(image_id)"
-	docker build --tag="$${image_id}" --build-arg $(VERSION) -f build/package/Dockerfile .
-	echo "$${image_id}" > .image-id
+.image-id: build/package/Dockerfile
+	@echo "🍳 Building container $(IMAGE_ID)"
+	docker build --tag="$(IMAGE_ID)" --build-arg $(VERSION) -f build/package/Dockerfile .
+	echo "$(IMAGE_ID)" > .image-id
 
 $(SYPHON): dep
 	@echo "🍳 Building $(SYPHON)"
 	@go build -i -v -o $(SYPHON) -ldflags "-X main.version=$(GIT_TAG)-$(GIT_BRANCH).$(GIT_COMMIT)" $(SYPHON_PKG_BUILD)
 
-$(RELEASE_ZIP): $(SYPHON) .image_id
+$(RELEASE_ZIP): $(SYPHON)
 	@echo "🍳 Building $(RELEASE_ZIP)"
 	zip --junk-paths $(RELEASE_ZIP) $(SYPHON) README.md
-	docker push $(image_id)
 
 .PHONY:clean
 clean: ## Remove previous builds

@@ -1,24 +1,21 @@
-FROM golang:1.14 as builder
+FROM golang:1.15 as builder
 
 ARG VERSION="development"
 ENV GO_PATH="/go"
 
-COPY cmd internal /src/
+COPY . /src/
 WORKDIR /src
 
 ENV GOOS=linux
-RUN go get -v -d ./... && \
-    go test -v ./... && \
-    go build -i -v -o syphon.bin \
-      -a -ldflags "-X main.version=$VERSION" \
-      ./cmd/syphon
+RUN touch .image-id && \
+      make build
 
 # Build the actual container
 FROM scratch
 LABEL maintainer="Cian Butler<butlerx@notthe.cloud>"
 
 COPY --from=builder /src/syphon.bin /bin/syphon
-ADD config/config.toml /bin/config.toml
+ADD configs/config.toml /bin/config.toml
 
 EXPOSE 2003
 LABEL VERSION=$VERSION
