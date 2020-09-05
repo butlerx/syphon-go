@@ -2,6 +2,7 @@ package connection
 
 import "github.com/prometheus/client_golang/prometheus"
 
+// Max size of send buffer.
 const bufferSendSize = 900
 
 var messageSentCounter = prometheus.NewCounterVec(
@@ -13,7 +14,7 @@ var messageSentCounter = prometheus.NewCounterVec(
 	[]string{"protocol", "endpoint"},
 )
 
-// RegisterMetrics for collection
+// RegisterMetrics for collection.
 func RegisterMetrics() {
 	prometheus.MustRegister(messageSentCounter)
 }

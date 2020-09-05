@@ -13,7 +13,7 @@ var uploaderGuage = prometheus.NewGaugeVec(
 	[]string{"type", "pattern"},
 )
 
-//RegisterMetrics with collector
+// RegisterMetrics with collector.
 func RegisterMetrics() {
 	prometheus.MustRegister(uploaderGuage)
 }

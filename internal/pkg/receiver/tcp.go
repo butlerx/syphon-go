@@ -13,7 +13,7 @@ import (
 )
 
 // TCPServer Create a tcp server on a given port
-// TODO handle closed connections and EOF more gracefully
+// TODO handle closed connections and EOF more gracefully.
 func TCPServer(
 	ctx context.Context,
 	addr string,
@@ -50,6 +50,7 @@ func TCPServer(
 					zap.String("address", tcpListener.Addr().String()),
 					zap.Error(err),
 				)
+
 				continue
 			}
 			go handler.HandleTCPConnection(

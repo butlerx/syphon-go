@@ -45,7 +45,9 @@ func TCP(
 			return
 		case <-time.After(bufferSendTimer * time.Second):
 			logger.Debug("Timer Executing")
-			conn.SendBuffer()
+			if err := conn.SendBuffer(); err != nil {
+				logger.Error("Error sending tcp message", zap.Error(err))
+			}
 		case m := <-metric:
 			match, _ := regexp.MatchString(pattern, m.Path)
 			if match {

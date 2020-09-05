@@ -30,7 +30,6 @@ func HandlePrometheusConnection(
 }
 
 func (rcv *PrometheusRemoteWrite) unpackFast(ctx context.Context, bufBody []byte) error {
-
 	b := bufBody
 	var err error
 	var ts []byte
@@ -100,7 +99,11 @@ TimeSeriesLoop:
 			}
 
 			rcv.counter.Inc()
-			rcv.parseChan <- parser.PromMetric{metric, value, timestamp / 1000}
+			rcv.parseChan <- parser.PromMetric{
+				Metric:    metric,
+				Value:     value,
+				Timestamp: timestamp / 1000,
+			}
 		}
 	}
 

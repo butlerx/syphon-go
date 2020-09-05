@@ -17,7 +17,7 @@ import (
 )
 
 // RawUDPServer binds to a port and listens to udp packets
-// TODO filter by port currectly
+// TODO filter by port correctly.
 func RawUDPServer(
 	ctx context.Context,
 	address string,
@@ -45,7 +45,6 @@ func RawUDPServer(
 		for {
 			buf := make([]byte, 1024)
 			numRead, err := file.Read(buf)
-
 			if err != nil {
 				logger.Warn(
 					"Error parsing udp buffer",

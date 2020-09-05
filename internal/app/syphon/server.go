@@ -8,7 +8,7 @@ import (
 	"github.com/butlerx/syphon-go/internal/pkg/receiver"
 )
 
-// Server init Function
+// Server init Function.
 func Server(
 	ctx context.Context,
 	cfg *config.Config,

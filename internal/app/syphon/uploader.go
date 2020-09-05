@@ -8,7 +8,7 @@ import (
 	"github.com/butlerx/syphon-go/internal/pkg/uploader"
 )
 
-// Uploader init function
+// Uploader init function.
 func Uploader(ctx context.Context, cfg *config.Config) []chan parser.Metric {
 	var sendChannels []chan parser.Metric
 

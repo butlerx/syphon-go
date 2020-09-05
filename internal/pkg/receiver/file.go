@@ -11,7 +11,7 @@ import (
 	"go.uber.org/zap"
 )
 
-// FileReader loads from file
+// FileReader loads from file.
 func FileReader(
 	ctx context.Context,
 	path string,

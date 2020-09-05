@@ -20,7 +20,7 @@ var messageRecievedCounter = prometheus.NewCounterVec(
 	[]string{"protocol"},
 )
 
-// RegisterMetrics for collection
+// RegisterMetrics for collection.
 func RegisterMetrics() {
 	prometheus.MustRegister(receiversGauge)
 	prometheus.MustRegister(messageRecievedCounter)

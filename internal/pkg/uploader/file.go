@@ -17,7 +17,7 @@ func File(ctx context.Context, path string, pattern string, metric chan parser.M
 	m.Inc()
 	defer m.Dec()
 
-	file, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	file, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 	if err != nil {
 		file.Close()
 		logger.Error("Error opening file", zap.String("path", path), zap.Error(err))

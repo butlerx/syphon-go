@@ -47,7 +47,7 @@ func registerMetrics(
 	}
 }
 
-// TODO parse prom metrics and send them to channels
+// TODO parse prom metrics and send them to channels.
 func push(gatherer prometheus.Gatherer, sendChannels []chan parser.Metric) error {
 	mfs, err := gatherer.Gather()
 	if err != nil || len(mfs) == 0 {

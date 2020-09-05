@@ -50,7 +50,6 @@ func HandleTCPConnection(
 		}
 
 		netData, err := bufio.NewReader(conn).ReadString('\n')
-
 		if err != nil {
 			logger.Error(
 				"Error reading from TCP connection",

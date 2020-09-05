@@ -61,6 +61,7 @@ func shouldQueryEscape(b []byte) bool {
 
 func (mb *prometheusMetricBuffer) urlQueryEscape(b []byte) string {
 	bs := unsafeString(b)
+
 	if !shouldQueryEscape(b) {
 		return bs
 	}
@@ -72,16 +73,21 @@ func (mb *prometheusMetricBuffer) urlQueryEscape(b []byte) string {
 
 	v = url.QueryEscape(bs)
 	mb.queryEscape[bs] = v
+
 	return v
 }
 
-// timeSeries returns (["metric_name", "key1", "value1", "key2", "value2", ...], firstSamplesOffset, error)
+// timeSeries returns (["metric_name", "key1", "value1", "key2", "value2", ...], firstSamplesOffset, error).
 func (mb *prometheusMetricBuffer) timeSeries(tsBody []byte) ([]string, int, error) {
 	ts := tsBody
 	labelIndex := 0
+
 	var label []byte
+
 	var err error
+
 	var samplesOffset int
+
 	var firstLabelLen int
 
 	for len(ts) > 0 {
@@ -90,6 +96,7 @@ func (mb *prometheusMetricBuffer) timeSeries(tsBody []byte) ([]string, int, erro
 			if len(mb.labels) < labelIndex+1 {
 				mb.labels = append(mb.labels, prometheusLabel{})
 			}
+
 			mb.labels[labelIndex].name = nil
 			mb.labels[labelIndex].value = nil
 
@@ -117,6 +124,7 @@ func (mb *prometheusMetricBuffer) timeSeries(tsBody []byte) ([]string, int, erro
 					}
 				}
 			}
+
 			if mb.labels[labelIndex].name != nil && mb.labels[labelIndex].value != nil {
 				labelIndex++
 			}
@@ -135,12 +143,15 @@ func (mb *prometheusMetricBuffer) timeSeries(tsBody []byte) ([]string, int, erro
 	}
 
 	var nameFound bool
+
 	for i := 0; i < labelIndex; i++ {
 		if bytes.Equal(mb.labels[i].name, []byte("__name__")) {
 			if i != 0 {
 				mb.labels[0], mb.labels[i] = mb.labels[i], mb.labels[0]
 			}
+
 			nameFound = true
+
 			break
 		}
 	}
@@ -158,9 +169,11 @@ func (mb *prometheusMetricBuffer) timeSeries(tsBody []byte) ([]string, int, erro
 	// check for sort
 
 	sortRequired := false
+
 	for i := 1; i < labelIndex-1; i++ {
 		if bytes.Compare(mb.labels[i].name, mb.labels[i+1].name) > 0 {
 			sortRequired = true
+
 			break
 		}
 	}

@@ -8,7 +8,7 @@ import (
 	"github.com/lomik/zapwriter"
 )
 
-// PrintDefaultConfig  to termianl
+// PrintDefaultConfig  to terminal.
 func PrintDefaultConfig() error {
 	cfg := newConfig()
 

@@ -8,7 +8,7 @@ import (
 	api "github.com/lomik/carbon-clickhouse/grpc"
 )
 
-// Metric Structure of parsed message
+// Metric Structure of parsed message.
 type Metric struct {
 	Path      string
 	Value     float64
@@ -36,7 +36,7 @@ func (m *Metric) String() string {
 	)
 }
 
-// Grpc converts metrics to grpc format
+// Grpc converts metrics to grpc format.
 func (m *Metric) Grpc() *api.Metric {
 	return &api.Metric{
 		Metric: fmt.Sprintf("%s%s", m.Path, m.labels()),

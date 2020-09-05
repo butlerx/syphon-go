@@ -45,7 +45,9 @@ func Grpc(
 			return
 		case <-time.After(bufferSendTimer * time.Second):
 			logger.Debug("Timer Executing")
-			conn.SendBuffer(ctx)
+			if err := conn.SendBuffer(ctx); err != nil {
+				logger.Error("Error sending grpc message", zap.Error(err))
+			}
 		case m := <-metric:
 			match, _ := regexp.MatchString(pattern, m.Path)
 			if match {

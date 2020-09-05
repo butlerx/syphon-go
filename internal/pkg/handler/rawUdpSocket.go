@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
-//HandleRawUDPPacket process udp packets in the form of byte arrays
+// HandleRawUDPPacket process udp packets in the form of byte arrays
 func HandleRawUDPPacket(
 	ctx context.Context,
 	rawData []byte,

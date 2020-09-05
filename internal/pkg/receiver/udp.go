@@ -11,7 +11,7 @@ import (
 	"go.uber.org/zap"
 )
 
-// UDPServer Create a udp server on a given port
+// UDPServer Create a udp server on a given port.
 func UDPServer(
 	ctx context.Context,
 	address string,

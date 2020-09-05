@@ -48,7 +48,6 @@ func ReadConfig(filename string) (*Config, error) {
 
 	if cfg.Metric.Endpoint != MetricEndpointLocal {
 		u, err := url.Parse(cfg.Metric.Endpoint)
-
 		if err != nil {
 			return nil, fmt.Errorf("common.metric-endpoint parse error: %s", err.Error())
 		}
