@@ -7,6 +7,7 @@ import (
 	"os"
 	"sort"
 
+	"github.com/MakeNowJust/heredoc"
 	"github.com/butlerx/syphon-go/internal/app/syphon"
 	"github.com/butlerx/syphon-go/internal/pkg/config"
 	"github.com/lomik/zapwriter"
@@ -14,17 +15,51 @@ import (
 )
 
 var version = "development"
+var helpTemp = heredoc.Doc(`
+	NAME:
+		{{ .Name }} {{ .Version }} - {{ .Usage }}
+
+	USAGE:
+		{{ .HelpName }}
+		{{- if .VisibleFlags }} [global options] {{- end }}
+		{{- if .Commands }} COMMAND [command options] {{- end }}
+		{{- if .ArgsUsage }} {{ .ArgsUsage }} {{- else }} [arguments...] {{- end }}
+	{{ with .Description }}
+	DESCRIPTION:
+
+	{{ . }}
+	{{- end }}
+	{{ with .Authors }}
+	AUTHOR:
+		{{ range . }}{{ . }}{{ end }}
+	{{- end }}
+	{{ if .Commands }}
+	COMMANDS:
+	{{- range .Commands }}
+	{{- if not .HideHelp }}
+		{{ join .Names ", " }}{{ "\t" }}{{ .Usage }}{{ "\n" }}
+	{{- end }}
+	{{- end }}
+	{{- end }}
+	{{- with .VisibleFlags }}
+	GLOBAL OPTIONS:
+	{{- range . }}
+		{{ . }}
+	{{- end }}
+	{{- end }}
+`)
 
 func main() {
+	cli.AppHelpTemplate = helpTemp
+
 	app := &cli.App{
-		Name:      "syphon",
-		Usage:     "Versatile metrics processor, proxy and forwarder",
-		UsageText: "syphon [options] COMMAND",
-		Description: `
-			syphon is designed to accept and route metrics traffic.
+		Name:  "syphon",
+		Usage: "Versatile metrics processor, proxy and forwarder",
+		Description: heredoc.Doc(`
+			Syphon is designed to accept and route metrics traffic.
 			Metrics can be received from socket, snooped from live traffic or read from file or kafka.
-			Metrics can be exportered via file, kafka or udp/tcp
-		`,
+			Metrics can be exportered via file, kafka or udp/tcp`,
+		),
 		Authors: []*cli.Author{
 			{
 				Name:  "Cian Butler",

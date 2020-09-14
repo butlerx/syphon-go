@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/BurntSushi/toml v0.3.1
+	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/golang/snappy v0.0.1
 	github.com/lomik/carbon-clickhouse v0.11.0
