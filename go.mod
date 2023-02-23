@@ -12,7 +12,6 @@ require (
 	github.com/prometheus/client_golang v1.5.0
 	github.com/urfave/cli/v2 v2.1.1
 	go.uber.org/zap v1.14.0
-	golang.org/x/text v0.3.2 // indirect
-	golang.org/x/tools v0.0.0-20200308013534-11ec41452d41 // indirect
+	golang.org/x/text v0.3.8 // indirect
 	google.golang.org/grpc v1.27.1
 )
